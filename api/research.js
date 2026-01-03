@@ -1,4 +1,20 @@
 export default async function handler(req, res) {
+    // ----- CORS HEADERS -----
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // ----- PRE-FLIGHT (OPTIONS) -----
+  if (req.method === "OPTIONS") {
+    res.status(204).end();
+    return;
+  }
+
+  // ----- ONLY ALLOW POST -----
+  if (req.method !== "POST") {
+    res.status(405).send("Method Not Allowed");
+    return;
+  }
   try {
     if (req.method !== "POST") {
       res.status(405).send("Method Not Allowed");
